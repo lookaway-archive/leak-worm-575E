@@ -13,7 +13,7 @@ ORGAN: ANATOMICAL STRUCTURE
 RETRIEVAL: October 2025, Tlönian Research Facility
 ============================================
 
-STATUS: Operational - v4.2 FINAL
+STATUS: Operational - v4.3 VOICE TUNED
 FUNCTION: Complete skeletal framework and visual cortex
 DEPENDENCIES: All JavaScript organs must be loaded in sequence
 
@@ -28,7 +28,7 @@ decaying when deprived of user interaction. Death is natural and
 graceful. Reward metamorphosis represents pattern recognition achievement.
 
 Critical structure:
-- Password membrane: Security gate requiring {🌊:🌊∈🌊}
+- Password membrane: Security gate requiring {🌊:🌊∈🌊} or TRIHC
 - Content vessel: 5 segments of Tlönian surveillance documentation
 - Death screen: Terminal state display
 - Reward screen: Pattern recognition achievement
@@ -1277,13 +1277,12 @@ body {
 const worm = {
     currentScreen: 0,
     authenticated: false,
-    totalScreens: 6,  // Updated for power dynamics content
+    totalScreens: 6,
     loadedScreens: new Set(),
     scrollObserver: null
 };
 
 // COLOR INTERPOLATION - Smooth transitions between states
-// (Technical: Linear interpolation for RGB values)
 function interpolateColor(start, end, progress) {
     return {
         r: Math.round(start.r + (end.r - start.r) * progress),
@@ -1293,18 +1292,14 @@ function interpolateColor(start, end, progress) {
 }
 
 // VALUE INTERPOLATION - Smooth numerical transitions
-// (Technical: Linear interpolation for single values)
 function interpolateValue(start, end, progress) {
     return start + (end - start) * progress;
 }
 
 // VISUAL DECAY CASCADE - Apply metabolic state to appearance
-// (Technical: Update all CSS variables based on lifecycle stage)
 function applyDecayVisuals(stage, progress) {
     const root = document.documentElement;
     
-    // STATE MAPPING - Determine transition endpoints
-    // (Technical: Map stage to color/effect configurations)
     let startColors, endColors;
     let startBreathing, endBreathing;
     let startVignette, endVignette;
@@ -1395,14 +1390,10 @@ function applyDecayVisuals(stage, progress) {
         endFlicker = CONFIG.flicker.pirate;
     }
     
-    // COLOR MUTATION - Interpolate phosphor emissions
-    // (Technical: Calculate intermediate color values)
     const coreColor = interpolateColor(startColors.core, endColors.core, progress);
     const glowColor = interpolateColor(startColors.glow, endColors.glow, progress);
     const textColor = interpolateColor(startColors.text, endColors.text, progress);
     
-    // NERVOUS SYSTEM UPDATE - Propagate through CSS
-    // (Technical: Set CSS variables for all visual properties)
     root.style.setProperty('--core-r', coreColor.r);
     root.style.setProperty('--core-g', coreColor.g);
     root.style.setProperty('--core-b', coreColor.b);
@@ -1413,8 +1404,6 @@ function applyDecayVisuals(stage, progress) {
     root.style.setProperty('--text-g', textColor.g);
     root.style.setProperty('--text-b', textColor.b);
     
-    // OPACITY CASCADE - Special handling for transitions
-    // (Technical: Apply multiplier for faster opacity fade)
     let opacityProgress = progress;
     
     if (stage === 'pirate') {
@@ -1432,14 +1421,10 @@ function applyDecayVisuals(stage, progress) {
     );
     root.style.setProperty('--text-opacity', textOpacity);
     
-    // BEAM COLOR SYNC - Match scanning beam to organism
-    // (Technical: Update beam colors to match glow)
     root.style.setProperty('--beam-color-r', glowColor.r);
     root.style.setProperty('--beam-color-g', glowColor.g);
     root.style.setProperty('--beam-color-b', glowColor.b);
     
-    // DANGER COLOR MUTATION - Warning signals
-    // (Technical: Interpolate danger/corruption colors)
     const dangerStartColors = [
         { r: 200, g: 30, b: 30 },
         { r: 200, g: 50, b: 40 },
@@ -1462,8 +1447,6 @@ function applyDecayVisuals(stage, progress) {
     root.style.setProperty('--danger-g', dangerColor.g);
     root.style.setProperty('--danger-b', dangerColor.b);
     
-    // RESPIRATORY UPDATE - Breathing rhythm
-    // (Technical: Set breathing animation parameters)
     const breathSpeed = interpolateValue(startBreathing.speed, endBreathing.speed, progress);
     const breathMin = interpolateValue(startBreathing.opacityMin, endBreathing.opacityMin, progress);
     const breathMax = interpolateValue(startBreathing.opacityMax, endBreathing.opacityMax, progress);
@@ -1471,22 +1454,16 @@ function applyDecayVisuals(stage, progress) {
     root.style.setProperty('--breathing-opacity-min', breathMin);
     root.style.setProperty('--breathing-opacity-max', breathMax);
     
-    // VISION CONSTRICTION - Vignette effect
-    // (Technical: Update edge darkness)
     const vignetteRadius = interpolateValue(startVignette.radius, endVignette.radius, progress);
     const vignetteOpacity = interpolateValue(startVignette.opacity, endVignette.opacity, progress);
     root.style.setProperty('--vignette-radius', vignetteRadius + '%');
     root.style.setProperty('--vignette-opacity', vignetteOpacity);
     
-    // SCAN LINE DEGRADATION - CRT interference
-    // (Technical: Update scanline visibility and speed)
     const scanOpacity = interpolateValue(startScanlines.opacity, endScanlines.opacity, progress);
     const scanSpeed = interpolateValue(startScanlines.speed, endScanlines.speed, progress);
     root.style.setProperty('--scanline-opacity', scanOpacity);
     root.style.setProperty('--scanline-speed', scanSpeed + 's');
     
-    // PHOSPHOR INTENSITY - Glow strength
-    // (Technical: Update text shadow parameters)
     const textGlowSpread = interpolateValue(startTextGlow.spread, endTextGlow.spread, progress);
     const textGlowIntensity = interpolateValue(startTextGlow.intensity, endTextGlow.intensity, progress);
     root.style.setProperty('--text-glow-spread', textGlowSpread + 'px');
@@ -1494,29 +1471,19 @@ function applyDecayVisuals(stage, progress) {
     root.style.setProperty('--pirate-glow-spread', (textGlowSpread * 1.125) + 'px');
     root.style.setProperty('--pirate-glow-intensity', textGlowIntensity * 1.33);
     
-    // OPTICAL DEGRADATION - Focus blur
-    // (Technical: Update blur filter values)
     const titleBlur = interpolateValue(startBlur.title, endBlur.title, progress);
     const textBlur = interpolateValue(startBlur.text, endBlur.text, progress);
     root.style.setProperty('--text-title-blur', titleBlur + 'px');
     root.style.setProperty('--text-body-blur', textBlur + 'px');
     
-    // POWER FLUCTUATION - Voltage instability
-    // (Technical: Update flicker animation speed)
     const flickerSpeed = interpolateValue(startFlicker.speed, endFlicker.speed, progress);
     const flickerBrightness = interpolateValue(startFlicker.brightness, endFlicker.brightness, progress);
     root.style.setProperty('--flicker-speed', flickerSpeed + 's');
     root.style.setProperty('--flicker-brightness', flickerBrightness);
 }
 
-// ==========================================
-// DEATH SCREEN PREPARATION - Terminal state display
-// (Technical: Setup death screen animation sequence)
-// ==========================================
-
+// DEATH SCREEN PREPARATION
 window.prepareDeathScreen = function() {
-    // FINAL GASP - Organism's last breath
-    // (Technical: Reduce breathing to minimal levels)
     const root = document.documentElement;
     const deathScreen = document.getElementById('deathScreen');
     const deathDot = document.getElementById('deathDot');
@@ -1528,8 +1495,6 @@ window.prepareDeathScreen = function() {
     
     deathScreen.classList.add('active');
     
-    // THINKING PULSE - Death contemplation
-    // (Technical: Blink dot animation sequence)
     let blinkCount = 0;
     const blinkInterval = setInterval(() => {
         deathDot.style.opacity = deathDot.style.opacity === '1' ? '0' : '1';
@@ -1539,8 +1504,6 @@ window.prepareDeathScreen = function() {
             clearInterval(blinkInterval);
             deathDot.style.opacity = '0';
             
-            // DEATH MESSAGE DISPLAY - Final communication
-            // (Technical: Show termination message with HTML structure)
             setTimeout(() => {
                 const deathMessage = bookContent?.metadata?.deathMessage || 
                     'SURVEILLANCE CLEARANCE REVOKED<span class="death-subtitle">ACCESS TERMINATED</span>';
@@ -1552,8 +1515,6 @@ window.prepareDeathScreen = function() {
                     deathTitle.style.transition = 'opacity 1.5s ease';
                     deathTitle.style.opacity = '1';
                     
-                    // FINAL FADE - Organism energy depletion
-                    // (Technical: Reduce glow to minimum)
                     setTimeout(() => {
                         const fadeSteps = 20;
                         const fadeInterval = 100;
@@ -1576,22 +1537,13 @@ window.prepareDeathScreen = function() {
         }
     }, 300);
     
-    // RESURRECTION TRIGGER - Click to restart
-    // (Technical: Reload page on death screen click)
     deathScreen.addEventListener('click', () => {
         location.reload();
     });
 };
 
-// ==========================================
-// REWARD SCREEN DISPLAY - Pattern recognition achievement
-// (Technical: Show reward sequence)
-// ==========================================
-
+// REWARD SCREEN DISPLAY
 function showRewardScreen() {
-    // PATTERN RECOGNITION MANIFESTATION - Reward display
-    // (Technical: Setup and animate reward screen elements)
-    
     const passwordGate = document.getElementById('passwordGate');
     if (passwordGate) passwordGate.classList.add('hidden');
     
@@ -1612,8 +1564,6 @@ function showRewardScreen() {
     const opacityFadeComplete = (colorShiftDuration / opacityMultiplier);
     const delayUntilVisible = Math.max(0, opacityFadeComplete - fadeOutDuration);
     
-    // THINKING SEQUENCE - Pattern contemplation
-    // (Technical: Delayed animation sequence)
     setTimeout(() => {
         let blinkCount = 0;
         const blinkInterval = setInterval(() => {
@@ -1623,12 +1573,10 @@ function showRewardScreen() {
                 clearInterval(blinkInterval);
                 dot.style.opacity = '0';
                 
-                // TYPEWRITER MANIFESTATION - Text appearance
-                // (Technical: Progressive text reveal)
                 setTimeout(() => {
                     typewriterEffect(header, 'Thank you for engaging with specimen', 50, () => {
                         setTimeout(() => {
-                            typewriterEffect(title, 'LEAKWORM_CYCLE1035', 50, () => {
+                            typewriterEffect(title, 'LEAK-WORM-575E', 50, () => {
                                 setTimeout(() => {
                                     typewriterEffect(subtitle, 'Power Dynamics Investigation – Fragment 575E – retrieved', 50, () => {
                                         setTimeout(() => {
@@ -1649,20 +1597,11 @@ function showRewardScreen() {
         }, 300);
     }, delayUntilVisible);
     
-    // ==========================================
-    // ARCHIVE REDIRECT - Fade to black transition
-    // (Technical: Play sound, fade out, then navigate)
-    // ==========================================
-    
     rewardScreen.addEventListener('click', () => {
-        // UNLOCK SOUND - Password chord
-        // (Technical: Trigger audio confirmation)
         if (window.leakAudio && window.leakAudio.ready) {
             window.leakAudio.triggerPasswordUnlock();
         }
         
-        // FADE OVERLAY - Black transition screen
-        // (Technical: Create fullscreen fade element)
         const fadeOverlay = document.createElement('div');
         fadeOverlay.style.cssText = `
             position: fixed;
@@ -1675,25 +1614,17 @@ function showRewardScreen() {
         `;
         document.body.appendChild(fadeOverlay);
         
-        // FADE ACTIVATION - Begin transition
-        // (Technical: Trigger opacity transition after small delay)
         setTimeout(() => {
             fadeOverlay.style.opacity = '1';
         }, 50);
         
-        // ARCHIVE NAVIGATION - Redirect after fade
-        // (Technical: Navigate to lookaway archive after 2.5s)
         setTimeout(() => {
             window.location.href = 'https://lookaway-archive.github.io/';
         }, 2500);
     });
 }
 
-// ==========================================
-// TYPEWRITER EFFECT - Progressive text reveal
-// (Technical: Character-by-character text animation)
-// ==========================================
-
+// TYPEWRITER EFFECT
 function typewriterEffect(element, text, speed, callback) {
     element.style.opacity = '1';
     let i = 0;
@@ -1713,22 +1644,14 @@ function typewriterEffect(element, text, speed, callback) {
     }, speed);
 }
 
-// ==========================================
-// REWARD MODE INITIATION - Pattern recognition transformation
-// (Technical: Start reward mode transition)
-// ==========================================
-
+// REWARD MODE INITIATION
 function startPirateMode() {
     decay.enterPirateMode(() => {
         showRewardScreen();
     });
 }
 
-// ==========================================
-// SENTENCE SPLITTING - Text segmentation
-// (Technical: Break text into sentence spans for beam detection)
-// ==========================================
-
+// SENTENCE SPLITTING
 function splitIntoSentences(text) {
     const sentences = text.match(/[^.!?]+[.!?]+["']*/g) || [text];
     return sentences
@@ -1738,11 +1661,7 @@ function splitIntoSentences(text) {
         .join(' ');
 }
 
-// ==========================================
-// HTML PROCESSING - Sentence wrapping
-// (Technical: Process HTML to wrap text in sentence spans)
-// ==========================================
-
+// HTML PROCESSING
 function processHTMLForSentences(html) {
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = html;
@@ -1768,11 +1687,7 @@ function processHTMLForSentences(html) {
     return tempDiv.innerHTML;
 }
 
-// ==========================================
-// SCREEN PLACEHOLDER - Loading indicator
-// (Technical: Create placeholder for lazy-loaded content)
-// ==========================================
-
+// SCREEN PLACEHOLDER
 function createScreenPlaceholder(screenId) {
     const placeholder = document.createElement('div');
     placeholder.className = 'screen-placeholder';
@@ -1781,11 +1696,7 @@ function createScreenPlaceholder(screenId) {
     return placeholder;
 }
 
-// ==========================================
-// SINGLE SCREEN LOADER - Content injection
-// (Technical: Load and display individual archive segment)
-// ==========================================
-
+// SINGLE SCREEN LOADER
 function loadSingleScreen(screenId) {
     if (worm.loadedScreens.has(screenId)) return;
     
@@ -1799,7 +1710,6 @@ function loadSingleScreen(screenId) {
         return `<p>${processHTMLForSentences(content)}</p>`;
     });
     
-    // Only add end-dot for the final content screen (screen 5)
     const endDot = (screenId === 5) ? '<div class="end-dot"><span class="blink-dot"></span></div>' : '';
     
     const section = document.createElement('div');
@@ -1829,27 +1739,17 @@ function loadSingleScreen(screenId) {
     worm.loadedScreens.add(screenId);
 }
 
-// ==========================================
-// PROGRESSIVE LOADING - Viewport optimization
-// (Technical: Setup lazy loading for content segments)
-// ==========================================
-
+// PROGRESSIVE LOADING
 function setupProgressiveLoading() {
     const container = document.getElementById('contentDisplay');
     
-    // INITIAL LOAD - First two segments
-    // (Technical: Load immediately visible content)
     loadSingleScreen(1);
     loadSingleScreen(2);
     
-    // PLACEHOLDER CREATION - Future segments
-    // (Technical: Create placeholders for lazy loading)
     for (let i = 3; i <= 5; i++) {
         container.appendChild(createScreenPlaceholder(i));
     }
     
-    // LEAK BUTTON - Data release trigger
-    // (Technical: Add document leak button)
     const buttonsContainer = document.createElement('div');
     buttonsContainer.className = 'buttons-container';
     buttonsContainer.innerHTML = `
@@ -1861,8 +1761,6 @@ function setupProgressiveLoading() {
     endSpacer.style.height = '15vh';
     container.appendChild(endSpacer);
     
-    // VIEWPORT OBSERVER - Lazy loading trigger
-    // (Technical: Load content as it enters viewport)
     worm.scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -1881,17 +1779,11 @@ function setupProgressiveLoading() {
     });
 }
 
-// ==========================================
-// ORGANISM INITIALIZATION - Birth sequence
-// (Technical: Setup all systems on DOM ready)
-// ==========================================
-
+// ORGANISM INITIALIZATION
 document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('passwordInput');
     const submitBtn = document.getElementById('submitBtn');
     
-    // DEPENDENCY CHECK - Verify organs loaded
-    // (Technical: Check required JavaScript modules)
     if (typeof bookContent === 'undefined') {
         console.error('book-of-thresholds.js not loaded!');
         return;
@@ -1905,8 +1797,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     
-    // GATE INITIALIZATION - Setup password screen
-    // (Technical: Display authentication barrier)
     const gateScreen = bookContent.screens[0];
     if (gateScreen && gateScreen.title) {
         document.getElementById('gateTitle').textContent = gateScreen.title;
@@ -1914,38 +1804,31 @@ document.addEventListener('DOMContentLoaded', () => {
     
     passwordInput.focus();
     
-    // BEAM INITIALIZATION - Start scanning
-    // (Technical: Initialize electron beam module)
     if (typeof BeamModule !== 'undefined') {
         window.beam = new BeamModule();
         window.beam.init();
     }
     
-    // PARTICLE INITIALIZATION - Start atmosphere
-    // (Technical: Initialize particle drift system)
     if (typeof ParticleDrift !== 'undefined') {
         window.particles = new ParticleDrift();
         window.particles.init();
     }
     
-    // DECAY SUBSCRIPTION - Connect visual system
-    // (Technical: Subscribe to lifecycle updates)
     decay.subscribe((stage, progress) => {
         applyDecayVisuals(stage, progress);
     });
     
     // ==========================================
-    // PASSWORD VERIFICATION - Authentication check
-    // (Technical: Check password and grant access)
+    // PASSWORD VERIFICATION - WITH TRIHC SUPPORT
     // ==========================================
     
     const checkPassword = () => {
         const input = passwordInput.value.trim();
         const correctPassword = bookContent.metadata.password;
+        const altPasswords = bookContent.metadata.altPasswords || [];
         
-        if (input === correctPassword) {
-            // ACCESS GRANTED - Begin organism life
-            // (Technical: Hide gate, show content, start decay)
+        if (input === correctPassword || altPasswords.includes(input)) {
+            // ACCESS GRANTED
             if (window.leakAudio) window.leakAudio.triggerPasswordUnlock();
             worm.authenticated = true;
             document.getElementById('passwordGate').classList.add('hidden');
@@ -1957,8 +1840,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             decay.start();
             
-            // INTERACTION MONITORING - Reset decay on activity
-            // (Technical: Setup event listeners for user interaction)
             const resetDecay = () => decay.reset();
             document.addEventListener('scroll', resetDecay);
             document.addEventListener('mousemove', resetDecay);
@@ -1967,8 +1848,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.addEventListener('keydown', resetDecay);
             
         } else {
-            // ACCESS DENIED - Wrong password
-            // (Technical: Shake input and clear)
+            // ACCESS DENIED
             passwordInput.style.animation = 'shake 0.3s';
             passwordInput.value = '';
             setTimeout(() => {
@@ -1983,11 +1863,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ==========================================
-// CLIPBOARD NOTIFICATION - Leak confirmation
-// (Technical: Show notification when document copied)
-// ==========================================
-
+// CLIPBOARD NOTIFICATION
 function showClipboardNotification() {
     const notification = document.getElementById('clipboardNotification');
     notification.style.display = 'block';
@@ -1998,11 +1874,7 @@ function showClipboardNotification() {
     }, 2000);
 }
 
-// ==========================================
-// DOCUMENT LEAK - Data release function
-// (Technical: Copy archive data to clipboard)
-// ==========================================
-
+// DOCUMENT LEAK
 function leakDocument(event) {
     const btn = event.target;
     
@@ -2020,8 +1892,6 @@ password: ${password}`;
     navigator.clipboard.writeText(shareMessage).then(() => {
         showClipboardNotification();
         
-        // REWARD MODE TRIGGER - Begin pattern recognition transformation
-        // (Technical: Start reward mode after leak)
         setTimeout(() => {
             startPirateMode();
         }, 2000);
@@ -2030,5 +1900,4 @@ password: ${password}`;
 </script>
 
 </body>
-
 </html>
