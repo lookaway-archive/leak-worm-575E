@@ -13,7 +13,7 @@ ORGAN: ANATOMICAL STRUCTURE
 RETRIEVAL: October 2025, Tlönian Research Facility
 ============================================
 
-STATUS: Operational - v4.3 VOICE TUNED
+STATUS: Operational - v4.4 OPEN ACCESS
 FUNCTION: Complete skeletal framework and visual cortex
 DEPENDENCIES: All JavaScript organs must be loaded in sequence
 
@@ -28,7 +28,7 @@ decaying when deprived of user interaction. Death is natural and
 graceful. Reward metamorphosis represents pattern recognition achievement.
 
 Critical structure:
-- Password membrane: Security gate requiring {🌊:🌊∈🌊} or TRIHC
+- Direct access: No password gate - zero friction entry
 - Content vessel: 5 segments of Tlönian surveillance documentation
 - Death screen: Terminal state display
 - Reward screen: Pattern recognition achievement
@@ -1781,8 +1781,6 @@ function setupProgressiveLoading() {
 
 // ORGANISM INITIALIZATION
 document.addEventListener('DOMContentLoaded', () => {
-    const passwordInput = document.getElementById('passwordInput');
-    const submitBtn = document.getElementById('submitBtn');
     
     if (typeof bookContent === 'undefined') {
         console.error('book-of-thresholds.js not loaded!');
@@ -1797,12 +1795,24 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     
-    const gateScreen = bookContent.screens[0];
-    if (gateScreen && gateScreen.title) {
-        document.getElementById('gateTitle').textContent = gateScreen.title;
-    }
+    // AUTO-AUTHENTICATE - No password gate for this specimen
+    // (Technical: Skip directly to content for zero friction)
+    worm.authenticated = true;
+    document.getElementById('passwordGate').classList.add('hidden');
+    document.getElementById('pageContainer').classList.add('active');
+    document.getElementById('fadeTop').style.display = 'block';
+    document.getElementById('fadeBottom').style.display = 'block';
     
-    passwordInput.focus();
+    setupProgressiveLoading();
+    
+    decay.start();
+    
+    const resetDecay = () => decay.reset();
+    document.addEventListener('scroll', resetDecay);
+    document.addEventListener('mousemove', resetDecay);
+    document.addEventListener('click', resetDecay);
+    document.addEventListener('touchstart', resetDecay);
+    document.addEventListener('keydown', resetDecay);
     
     if (typeof BeamModule !== 'undefined') {
         window.beam = new BeamModule();
@@ -1818,49 +1828,7 @@ document.addEventListener('DOMContentLoaded', () => {
         applyDecayVisuals(stage, progress);
     });
     
-    // ==========================================
-    // PASSWORD VERIFICATION - WITH TRIHC SUPPORT
-    // ==========================================
-    
-    const checkPassword = () => {
-        const input = passwordInput.value.trim();
-        const correctPassword = bookContent.metadata.password;
-        const altPasswords = bookContent.metadata.altPasswords || [];
-        
-        if (input === correctPassword || altPasswords.includes(input)) {
-            // ACCESS GRANTED
-            if (window.leakAudio) window.leakAudio.triggerPasswordUnlock();
-            worm.authenticated = true;
-            document.getElementById('passwordGate').classList.add('hidden');
-            document.getElementById('pageContainer').classList.add('active');
-            document.getElementById('fadeTop').style.display = 'block';
-            document.getElementById('fadeBottom').style.display = 'block';
-            
-            setupProgressiveLoading();
-            
-            decay.start();
-            
-            const resetDecay = () => decay.reset();
-            document.addEventListener('scroll', resetDecay);
-            document.addEventListener('mousemove', resetDecay);
-            document.addEventListener('click', resetDecay);
-            document.addEventListener('touchstart', resetDecay);
-            document.addEventListener('keydown', resetDecay);
-            
-        } else {
-            // ACCESS DENIED
-            passwordInput.style.animation = 'shake 0.3s';
-            passwordInput.value = '';
-            setTimeout(() => {
-                passwordInput.style.animation = '';
-            }, 300);
-        }
-    };
-    
-    submitBtn.addEventListener('click', checkPassword);
-    passwordInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') checkPassword();
-    });
+    // Password verification removed - direct access enabled
 });
 
 // CLIPBOARD NOTIFICATION
@@ -1883,11 +1851,9 @@ function leakDocument(event) {
     btn.textContent = 'LEAKING...';
     
     const specimenLink = window.location.href;
-    const password = bookContent.metadata.password;
     
     const shareMessage = `Discovered leaked Tlönian surveillance documentation:
-${specimenLink}
-password: ${password}`;
+${specimenLink}`;
     
     navigator.clipboard.writeText(shareMessage).then(() => {
         showClipboardNotification();
